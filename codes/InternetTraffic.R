@@ -7,9 +7,9 @@ library(fitdistrplus)
 library(evd)
 library(igraph)
 
-setwd("/Users/bikram/Dropbox/Projects/InhomogeneousTails/Rcode/")
+#setwd("/Users/bikram/Github/ParetoGaussCop/")
 
-source("HTailGCop.R")
+source("./codes/HTailGCop.R")
 
 #### Another data Duration Rate
 e2eses<-read.table("e2eses.txt",header=F)

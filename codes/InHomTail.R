@@ -5,9 +5,8 @@ library(ggplot2)
 require(gridExtra)
 #library(evir)
 
-setwd("/Users/bikram/Dropbox/Projects/InhomogeneousTails/Rcode/")
 
-source("HTailGCop.R")
+source("./codes/HTailGCop.R")
 
 ##################################################################################################
 # Function to simulate from a bivariate Gaussian copula with correlation rho (margins are naturally uniform)

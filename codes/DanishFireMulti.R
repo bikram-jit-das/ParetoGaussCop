@@ -7,9 +7,8 @@ library(fitdistrplus)
 library(evd)
 
 
-setwd("/Users/bikram/Dropbox/Projects/InhomogeneousTails/Rcode/")
 
-source("HTailGCop.R")
+source("./codes/HTailGCop.R")
 
 
 data(danishmulti)

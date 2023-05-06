@@ -1,4 +1,8 @@
 
+### Some functions are adapted from SId Resnick's Heavy-tail Phenomena book.
+
+### Hill estimate
+
 Hill<-function(x)
 {
   ordered <- rev(sort(x))
@@ -9,6 +13,9 @@ Hill<-function(x)
   alpha <- 1./hill
   return(alpha)
 }
+
+
+# Hill estimate with confidence bands
 
 HillwCI<-function(x,pct=0.95)
 {
@@ -25,6 +32,7 @@ HillwCI<-function(x,pct=0.95)
 }
 
 
+# Hill plot
 
 Hillalphaplot<-function(x)
 {
@@ -59,6 +67,10 @@ rfrechet <- function(n, a=2) qfrechet(runif(n),a)
 pgpd <- function(x, xi=1/2, mu=0, sigma=1) (x > mu)*1-(1+(xi-mu)/sigma)^(-1/xi)
 qgpd <- function(u, xi=1/2,mu=0, sigma=1) ((1-u)^(-xi)-1)/xi
 rgpd <- function(n, xi=1/2,mu=0, sigma=1) qfrechet(runif(n),xi, mu, sigma)
+
+
+
+## Estimate of rho for Pareto Gauss copula with confidence band
 
 Estrho<-function(simpar, pctci=0.95) ### Needs to be checked and modified but works moderately
 {
@@ -98,7 +110,7 @@ Estrho<-function(simpar, pctci=0.95) ### Needs to be checked and modified but wo
 
   
 
-
+## PLots Pareto Gauss parameter estimates
 
 plotdatapar<-function(simpar)
 {
@@ -134,7 +146,7 @@ plot(lim,rho, ylim=c(-1,1),type="l", lty=1,lwd=2, col="red", xlab="order statist
 
 
 
-
+## PLots Pareto Gauss only rho
 plotdataparonlyrho<-function(simpar)
 {
   xe1<-simpar[,1]
@@ -163,6 +175,8 @@ plotdataparonlyrho<-function(simpar)
 
 
 
+
+## Plots Pareto Gauss parameter estimates with confidence intervals
 
 plotdataparwithCI<-function(simpar,pct,lt=20,os=1000,str1=expression("Variable "~X^1),str2=expression("Variable "~X^2) )
 {
@@ -221,6 +235,7 @@ plotdataparwithCI<-function(simpar,pct,lt=20,os=1000,str1=expression("Variable "
 }
 
 
+## Plots Pareto Gauss parameter estimates rho
 
 plotdataparonlyrho<-function(simpar)
 {
@@ -250,7 +265,7 @@ plotdataparonlyrho<-function(simpar)
 
 
 
-
+## Plots Pareto Gauss parameter estimates for simulated data
 
 
 plotdataparsim<-function(simpar,b1,b2,g,r)
@@ -291,6 +306,8 @@ plotdataparsim<-function(simpar,b1,b2,g,r)
 }
 
 
+
+## Plots Pareto Gauss parameter estimates for simulated data with confidence intervals
 
 plotdataparsimwithCI<-function(simpar,pct,b1,b2,g,r)
 {
@@ -360,6 +377,8 @@ plotdataparsimwithCI<-function(simpar,pct,b1,b2,g,r)
 
 
 
+## Plots exp qq plot
+
 parfit<-function(x, k, xl=1)
 {
   l <- length(x)
@@ -376,7 +395,7 @@ parfit<-function(x, k, xl=1)
 
 
 
-
+## QQ plot with CI
 
 
 QQplotrvwithCI<-function(x,kpct=0.25,pct=0.95,xi=1,xl=1)
@@ -407,35 +426,3 @@ QQplotrvwithCI<-function(x,kpct=0.25,pct=0.95,xi=1,xl=1)
 
 
 
-QQPlotSG<-function(x,kpct,delpct,flname,xi)
-{
-  xs=sort(x,decreasing=TRUE)
-  n=length(x)
-  pdf(file=paste(flname,".pdf",sep=""),height=4.5,width=8)
-  par(mfrow=c(2,3),mar=c(2,2,2,1))
-  for (j in 1:2){
-    for (i in 1:3){
-      k=kpct[i]*n
-      del=delpct[j]
-      y=xs[1:k]
-      z=-log((1:k)/k)
-      v=log(y/y[k])
-      cilen90=1.95996*mean(v)/(del*k)^(1/2)
-      cilen95=2.2414*mean(v)/(del*k)^(1/2)
-      cilen99=2.80703*mean(v)/(del*k)^(1/2)
-      plot(z,v,t="l")
-      xx=c(-log(((del*k):k)/k),rev(-log(((del*k):k)/k)))
-      yy95=c(v[(del*k):k]+cilen95,rev(v[(del*k):k])-cilen95)
-      yy90=c(v[(del*k):k]+cilen90,rev(v[(del*k):k])-cilen90)
-      yy99=c(v[(del*k):k]+cilen99,rev(v[(del*k):k])-cilen99)
-      polygon(xx,yy99,col="skyblue1",border=NA)
-      polygon(xx,yy95,col="skyblue2",border=NA)
-      polygon(xx,yy90,col="skyblue3",border=NA)
-      oldpar<-par(new=TRUE)
-      plot(z,v,t="l",lwd=2)
-      lines(z,z*xi,col="brown",lty=2,lwd=2)
-      title(main=paste("k=",k,", delta=",del))
-    }
-  }
-  dev.off()
-}

@@ -7,9 +7,9 @@ library(fitdistrplus)
 library(evd)
 library(igraph)
 
-setwd("/Users/bikram/Dropbox/Projects/InhomogeneousTails/Rcode/")
 
-source("HTailGCop.R")
+
+source("./codes/HTailGCop.R")
 
 
 x<-read.table("cit-Hep.txt",header=T)
